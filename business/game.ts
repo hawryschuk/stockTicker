@@ -12,7 +12,7 @@ export class AutoTerminal extends Terminal {
 /** Stock-Ticker : spot prices, player assets */
 // https://magisterrex.files.wordpress.com/2014/07/stocktickerrules.pdf
 export class Game extends BaseService {
-    table: Table;
+    table!: Table;
     players: Player[];
     turn: Player;
     commodities: { [name: string]: Commodity } = ['oil', 'bonds', 'gold', 'silver', 'grain', 'industrial'].reduce((commodities, name) => ({ ...commodities, [name]: new Commodity(name) }), {});
@@ -22,14 +22,12 @@ export class Game extends BaseService {
         direction: 'up' | 'down' | 'dividend';
         commodity: Commodity
     }[] = [];
-    rolled = {
+    rolled: { amount: number; direction: 'up' | 'down' | 'dividend'; commodity: Commodity } = {
         amount: 0,
-        direction: undefined as 'up' | 'down' | 'dividend',
-        commodity: undefined as Commodity
-    };
+    } as any;
 
     constructor({ table = null, terminals = [] } = {} as { table?: Table; terminals?: Terminal[]; }) {
-        super({ table });
+        super({ table: table as any });
         this.players = terminals.map((terminal, i) => new Player(terminal || new AutoTerminal({ history: [{ type: 'prompt', options: { name: 'name', type: 'text', message: '', resolved: `Robot ${i + 1}` } }] }), this));
         this.turn = this.players[0];
         if (this.serviceState) this.state = this.serviceState;
@@ -55,7 +53,7 @@ export class Game extends BaseService {
             .players
             .map(player => ({ player, worth: player.worth }))
             .sort((a, b) => a.worth - b.worth)
-            .pop()
+            .pop()!
             .player
     }
 
@@ -175,7 +173,7 @@ export class Game extends BaseService {
                 disabled: !game.turn.cash
             })),
         ];
-        const handlers = {
+        const handlers: any = {
             'roll-dice': async () => {
                 const { name } = this.turn;
                 game.roll();
@@ -233,8 +231,8 @@ export class Game extends BaseService {
 
         /** Perform the chosen action */
         if (!handlers[choice]) console.log('no handler for choice', choice);
-        else if (!(choices as any).find(c => c.value === choice)) console.log('unknown choice', choice)
-        else if ((choices as any).find(c => c.value === choice).disabled) console.log('choice is disabled', choice)
+        else if (!(choices as any).find((c: any) => c.value === choice)) console.log('unknown choice', choice)
+        else if ((choices as any).find((c: any) => c.value === choice).disabled) console.log('choice is disabled', choice)
         else await handlers[choice]();
 
         /** Broadcast the game state */

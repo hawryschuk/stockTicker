@@ -11,8 +11,11 @@ export class Player {
     }
 
     can(action: string): any {
-        debugger;
-        return this.terminal.prompts['stock-ticker-action'] && this.terminal.prompts['stock-ticker-action'][0].choices.find(c => c.value === action && !c.disabled)
+        return this.terminal.prompts['stock-ticker-action']
+            && this
+                .terminal.prompts['stock-ticker-action']![0]!
+                .choices!
+                .find(c => c.value === action && !c.disabled)
     }
 
     name: string;
