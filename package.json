@@ -1,5 +1,5 @@
 {
-  "name": "@hawryschuk/games-stock.ticker",
+  "name": "@hawryschuk/stock-ticker",
   "version": "1.0.0",
   "description": "Stock Ticker, the game",
   "main": "index.js",
@@ -7,10 +7,12 @@
     "test": "ts-mocha --timeout 5000 business/*.spec.ts",
     "start": "nodemon --watch business --ext ts --exec \"npm test && npm run build\"",
     "cli": "ts-node cli",
-    "build": "rm -rf dist/* && tsc --allowSyntheticDefaultImports --outDir dist && hawryschuk --package-json"
+    "build": "rm -rf dist/* && tsc --allowSyntheticDefaultImports --outDir dist && hawryschuk --package-json",
+    "postinstall": "npm run hawryschuk",
+    "hawryschuk": "npm link @hawryschuk/terminals"
   },
   "bin": {
-    "stock-ticker": "./cli.js"
+    "stock-ticker": "./cli.ts"
   },
   "author": "Hawryschuk, Alex",
   "license": "ISC",

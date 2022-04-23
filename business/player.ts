@@ -1,6 +1,6 @@
 import { Game } from "./game";
 import { Commodity } from "./commodity";
-import { Terminal } from 'c:/Users/owner/Documents/@hawryschuk-terminal-restapi/Terminal';
+import { Terminal } from '@hawryschuk/terminals/Terminal';
 
 export class Player {
     cash = 5000;

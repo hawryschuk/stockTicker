@@ -1,7 +1,7 @@
 import { Player } from "./player";
 import { Commodity } from "./commodity";
 import { Util } from "./util";
-import { Table, Terminal, BaseService, Prompt, TableService } from "../../@hawryschuk-terminal-restapi";
+import { Table, Terminal, BaseService, Prompt, TableService } from '@hawryschuk/terminals';
 
 export class AutoTerminal extends Terminal {
     async prompt(options: Prompt) {
@@ -149,6 +149,13 @@ export class Game extends BaseService {
             });
         });
         // debugger;
+    }
+
+
+    async broadcast(message: any) {
+        await Promise.all(this.players.map(async player => {
+            await player.terminal.send(message);
+        }))
     }
 
     /** Play the game through prompts and stdout */
